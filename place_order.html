@@ -1,797 +1,1390 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Dodla/SVD1.png" type="image/png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="Dodla/SVD1.png" type="image/png" />
     <title>Place Order - SVD Milk Agencies</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="excess.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="excess.css" />
     <style>
-        .navbar-logo {
-            height: 40px;
-            width: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+      .navbar-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-logo:hover {
+        transform: scale(1.1);
+        border-color: var(--primary-color);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+      }
+
+      .order-card {
+        background: white;
+        border: 1px solid red;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .order-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .order-image {
+        width: 200px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      .price-tags {
+        margin-bottom: 15px;
+      }
+
+      .mrp {
+        font-weight: bold;
+        color: #dc3545;
+        margin-right: 10px;
+      }
+
+      .bp {
+        font-weight: bold;
+        color: #28a745;
+      }
+
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .quantity {
+        font-size: 18px;
+        font-weight: bold;
+        min-width: 30px;
+        text-align: center;
+      }
+
+      .summary {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+      }
+
+      .min-qty {
+        font-weight: bold;
+        color: #007bff;
+        margin-left: 10px;
+      }
+
+      /* Responsive button styles */
+      @media (max-width: 768px) {
+        .filter-btn {
+          width: 15%;
+          font-size: 12px;
+          padding: 0% !important;
+          margin-bottom: 5px;
+          justify-content: center;
         }
 
-        .navbar-logo:hover {
-            transform: scale(1.1);
-            border-color: var(--primary-color);
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-        }
-
-        .order-card {
-            background: white;
-            border: 1px solid red;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .order-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .order-image {
-            width: 200px;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .price-tags {
-            margin-bottom: 15px;
-        }
-
-        .mrp {
-            font-weight: bold;
-            color: #dc3545;
-            margin-right: 10px;
-        }
-
-        .bp {
-            font-weight: bold;
-            color: #28a745;
+        .qty-btn {
+          min-width: 40px;
+          min-height: 40px;
+          padding: 0.25rem 0.5rem;
+          font-size: 1rem;
         }
 
         .quantity-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+          gap: 5px;
         }
 
-        .quantity {
-            font-size: 18px;
-            font-weight: bold;
-            min-width: 30px;
-            text-align: center;
+        .order-image {
+          width: 150px;
+          height: 200px;
         }
-
-        .summary {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-
-        .min-qty {
-            font-weight: bold;
-            color: #007bff;
-            margin-left: 10px;
-        }
-
-        /* Responsive button styles */
-        @media (max-width: 768px) {
-            .filter-btn {
-                width: 15%;
-                font-size: 12px;
-                padding: 0% !important;
-                margin-bottom: 5px;
-                justify-content: center;
-            }
-
-            .qty-btn {
-                min-width: 40px;
-                min-height: 40px;
-                padding: 0.25rem 0.5rem;
-                font-size: 1rem;
-            }
-
-            .quantity-controls {
-                gap: 5px;
-            }
-
-            .order-image {
-                width: 150px;
-                height: 200px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-            <a href="index.html" class="btn btn-link p-0 me-2" style="font-size: 1.5rem; color: white;">
-                <i class="bi bi-arrow-left"></i>
+      <div class="container-fluid">
+        <a
+          href="index.html"
+          class="btn btn-link p-0 me-2"
+          style="font-size: 1.5rem; color: white"
+        >
+          <i class="bi bi-arrow-left"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+          <span class="brand-short">SVD Milk Agencies</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <a class="navbar-brand d-lg-none" href="#">
+              <span class="brand-full">SVD Milk Agencies</span>
             </a>
-
-            <a class="navbar-brand" href="#">
-                <span class="brand-short">SVD Milk Agencies</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <a class="navbar-brand d-lg-none" href="#">
-                        <span class="brand-full">SVD Milk Agencies</span>
-                    </a>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#home">
-                            <i class="bi bi-house me-1"></i>Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#products">
-                            <i class="bi bi-box-seam me-1"></i>Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#features">
-                            <i class="bi bi-star me-1"></i>Features
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#contact">
-                            <i class="bi bi-telephone me-1"></i>Contact Us
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#home">
+                <i class="bi bi-house me-1"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#products">
+                <i class="bi bi-box-seam me-1"></i>Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#features">
+                <i class="bi bi-star me-1"></i>Features
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#contact">
+                <i class="bi bi-telephone me-1"></i>Contact Us
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Order Section -->
-    <section class="section order-section" id="order" style="padding-top: 100px;">
-        <div class="container-fluid">
-            <div class="section-title text-center">
-                <p class="mb-4 mb-lg-5">Select products to place order</p>
+    <section
+      class="section order-section"
+      id="order"
+      style="padding-top: 100px"
+    >
+      <div class="container-fluid">
+        <div class="section-title text-center">
+          <p class="mb-4 mb-lg-5">Select products to place order</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs text-center mb-4">
+          <button
+            class="btn btn-outline-primary filter-btn active"
+            data-category="milk"
+          >
+            Milk
+          </button>
+          <button
+            class="btn btn-outline-primary filter-btn"
+            data-category="curd"
+          >
+            Curd
+          </button>
+          <button
+            class="btn btn-outline-primary filter-btn"
+            data-category="ghee"
+          >
+            Ghee
+          </button>
+          <button
+            class="btn btn-outline-primary filter-btn"
+            data-category="sweets"
+          >
+            Sweets
+          </button>
+          <button
+            class="btn btn-outline-primary filter-btn"
+            data-category="other"
+          >
+            Other
+          </button>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Butter-Milk-200ML.png"
+                alt="Butter Milk 200ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Butter Milk 200ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹10</span>
+                <span class="bp">BP: ₹7.5</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('butter-milk-200ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="butter-milk-200ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('butter-milk-200ml', 1)"
+                >
+                  +
+                </button>
+              </div>
             </div>
-
-            <!-- Filter Tabs -->
-            <div class="filter-tabs text-center mb-4">
-                <button class="btn btn-outline-primary filter-btn active" data-category="milk">Milk</button>
-                <button class="btn btn-outline-primary filter-btn" data-category="curd">Curd</button>
-                <button class="btn btn-outline-primary filter-btn" data-category="ghee">Ghee</button>
-                <button class="btn btn-outline-primary filter-btn" data-category="sweets">Sweets</button>
-                <button class="btn btn-outline-primary filter-btn" data-category="other">Other</button>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
+            <div class="order-card">
+              <img
+                src="Dodla/Cow-Ghee-500ML.png"
+                alt="Cow Ghee 500ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Cow Ghee 500ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹400</span>
+                <span class="bp">BP: ₹350</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-500ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="cow-ghee-500ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-500ml', 1)"
+                >
+                  +
+                </button>
+              </div>
             </div>
-
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Butter-Milk-200ML.png" alt="Butter Milk 200ML" class="order-image">
-                        <h5 class="order-title">Butter Milk 200ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹10</span>
-                            <span class="bp">BP: ₹7.5</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('butter-milk-200ml', -1)">-</button>
-                            <span class="quantity" id="butter-milk-200ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('butter-milk-200ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
-                    <div class="order-card">
-                        <img src="Dodla/Cow-Ghee-500ML.png" alt="Cow Ghee 500ML" class="order-image">
-                        <h5 class="order-title">Cow Ghee 500ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹400</span>
-                            <span class="bp">BP: ₹350</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-500ml', -1)">-</button>
-                            <span class="quantity" id="cow-ghee-500ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-500ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
-                    <div class="order-card">
-                        <img src="Dodla/Cow-Ghee-1000ML-P.png" alt="Cow Ghee 1000ML P" class="order-image">
-                        <h5 class="order-title">Cow Ghee 1000ML P</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹750</span>
-                            <span class="bp">BP: ₹650</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-1000ml-p', -1)">-</button>
-                            <span class="quantity" id="cow-ghee-1000ml-p-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-1000ml-p', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
-                    <div class="order-card">
-                        <img src="Dodla/Cow-Ghee-1000ML.png" alt="Cow Ghee 1000ML" class="order-image">
-                        <h5 class="order-title">Cow Ghee 1000ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹800</span>
-                            <span class="bp">BP: ₹700</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-1000ml', -1)">-</button>
-                            <span class="quantity" id="cow-ghee-1000ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('cow-ghee-1000ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="3">
-                    <div class="order-card">
-                        <img src="Dodla/Doodh-Peda(200-GMS).png" alt="Doodh Peda 200 GMS" class="order-image">
-        <h5 class="order-title">Doodh Peda 200 GMS</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹125</span>
-            <span class="bp">BP: ₹100</span>
-            <span class="min-qty">Min Qty: 3</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('doodh-peda-200-gms', -1)">-</button>
-                            <span class="quantity" id="doodh-peda-200-gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('doodh-peda-200-gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/DTM-Curd-Bucket(10 KGs).png" alt="DTM Curd Bucket 10 KGs" class="order-image">
-                        <h5 class="order-title">DTM Curd Bucket 10 KGs</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹650</span>
-                            <span class="bp">BP: ₹590</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('dtm-curd-bucket-10-kgs', -1)">-</button>
-                            <span class="quantity" id="dtm-curd-bucket-10-kgs-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('dtm-curd-bucket-10-kgs', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/DTM-Curd-Bucket(10 KGs).png" alt="DTM Curd Bucket 5 KGs" class="order-image">
-                        <h5 class="order-title">DTM Curd Bucket 5 KGs</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹330</span>
-                            <span class="bp">BP: ₹310</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('dtm-curd-bucket-5-kgs', -1)">-</button>
-                            <span class="quantity" id="dtm-curd-bucket-5-kgs-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('dtm-curd-bucket-5-kgs', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
-                    <div class="order-card">
-                        <img src="Dodla/FCM-130ML.png" alt="FCM 130ML" class="order-image">
-                        <h5 class="order-title">FCM 130ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹10</span>
-                            <span class="bp">BP: ₹9</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('fcm-130ml', -1)">-</button>
-                            <span class="quantity" id="fcm-130ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('fcm-130ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
-                    <div class="order-card">
-                        <img src="Dodla/FCM-500ML.png" alt="FCM 500ML" class="order-image">
-                        <h5 class="order-title">FCM 500ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹35</span>
-                            <span class="bp">BP: ₹33</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('fcm-500ml', -1)">-</button>
-                            <span class="quantity" id="fcm-500ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('fcm-500ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Flavoured-Milk-200ML.png" alt="Flavoured Milk 200ML" class="order-image">
-                        <h5 class="order-title">Flavoured Milk 200ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹720</span>
-                            <span class="bp">BP: ₹550</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('flavoured-milk-200ml', -1)">-</button>
-                            <span class="quantity" id="flavoured-milk-200ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('flavoured-milk-200ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
-                    <div class="order-card">
-                        <img src="Dodla/Ghee-500ML.png" alt="Ghee 500ML" class="order-image">
-                        <h5 class="order-title">Ghee 500ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹410</span>
-                            <span class="bp">BP: ₹310</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('ghee-500ml', -1)">-</button>
-                            <span class="quantity" id="ghee-500ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('ghee-500ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
-                    <div class="order-card">
-                        <img src="Dodla/Ghee-1000ML.png" alt="Ghee 1000ML" class="order-image">
-                        <h5 class="order-title">Ghee 1000ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹800</span>
-                            <span class="bp">BP: ₹620</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('ghee-1000ml', -1)">-</button>
-                            <span class="quantity" id="ghee-1000ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('ghee-1000ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="6">
-                    <div class="order-card">
-                        <img src="Dodla/Junnu-100GMS.png" alt="Junnu 100GMS" class="order-image">
-        <h5 class="order-title">Junnu 100GMS</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹30</span>
-            <span class="bp">BP: ₹26</span>
-            <span class="min-qty">Min Qty: 6</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('junnu-100gms', -1)">-</button>
-                            <span class="quantity" id="junnu-100gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('junnu-100gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Panner-1KG.png" alt="Panner 1KG" class="order-image">
-                        <h5 class="order-title">Panner 1KG</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹450</span>
-                            <span class="bp">BP: ₹360</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-1kg', -1)">-</button>
-                            <span class="quantity" id="panner-1kg-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-1kg', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Panner-200GMS.png" alt="Panner 200GMS" class="order-image">
-                        <h5 class="order-title">Panner 200GMS</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹105</span>
-                            <span class="bp">BP: ₹90</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-200gms', -1)">-</button>
-                            <span class="quantity" id="panner-200gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-200gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Panner-500GMS.png" alt="Panner 500GMS" class="order-image">
-                        <h5 class="order-title">Panner 500GMS</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹260</span>
-                            <span class="bp">BP: ₹190</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-500gms', -1)">-</button>
-                            <span class="quantity" id="panner-500gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('panner-500gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="3">
-                    <div class="order-card">
-                        <img src="Dodla/Soan-Papidi-200(Ghee).png" alt="Soan Papidi 200 Ghee" class="order-image">
-        <h5 class="order-title">Soan Papidi 200 Ghee</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹90</span>
-            <span class="bp">BP: ₹81</span>
-            <span class="min-qty">Min Qty: 3</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200-ghee', -1)">-</button>
-                            <span class="quantity" id="soan-papidi-200-ghee-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200-ghee', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="3">
-                    <div class="order-card">
-                        <img src="Dodla/Soan-Papidi-200GMS (Elachi).png" alt="Soan Papidi 200GMS Elachi" class="order-image">
-        <h5 class="order-title">Soan Papidi 200GMS Elachi</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹70</span>
-            <span class="bp">BP: ₹63</span>
-            <span class="min-qty">Min Qty: 3</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-elachi', -1)">-</button>
-                            <span class="quantity" id="soan-papidi-200gms-elachi-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-elachi', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="3">
-                    <div class="order-card">
-                        <img src="Dodla/Soan-Papidi-200GMS (Orange ).png" alt="Soan Papidi 200GMS Orange" class="order-image">
-        <h5 class="order-title">Soan Papidi 200GMS Orange</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹70</span>
-            <span class="bp">BP: ₹63</span>
-            <span class="min-qty">Min Qty: 3</span>
-        </div>
-        <div class="quantity-controls">
-            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-orange', -1)">-</button>
-            <span class="quantity" id="soan-papidi-200gms-orange-qty">0</span>
-            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-orange', 1)">+</button>
-        </div>
-    </div>
-</div>
-<div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="sweets" data-min-qty="3">
-    <div class="order-card">
-        <img src="Dodla/Soan-Papidi-200GMS (Orange ).png" alt="Soan Papidi 200GMS Orange" class="order-image">
-        <h5 class="order-title">Soan Papidi 200GMS Orange</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹70</span>
-            <span class="bp">BP: ₹63</span>
-            <span class="min-qty">Min Qty: 3</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-orange', -1)">-</button>
-                            <span class="quantity" id="soan-papidi-200gms-orange-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('soan-papidi-200gms-orange', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk" data-min-qty="24">
-                    <div class="order-card">
-                        <img src="Dodla/STD-500ML.png" alt="STD 500ML" class="order-image">
-        <h5 class="order-title">STD 500ML</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹32</span>
-            <span class="bp">BP: ₹30</span>
-            <span class="min-qty">Min Qty: 24</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('std-500ml', -1)">-</button>
-                            <span class="quantity" id="std-500ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('std-500ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
-                    <div class="order-card">
-                        <img src="Dodla/Sweet-Lassi-140ML.png" alt="Sweet Lassi 140ML" class="order-image">
-                        <h5 class="order-title">Sweet Lassi 140ML</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹10</span>
-                            <span class="bp">BP: ₹8.5</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('sweet-lassi-140ml', -1)">-</button>
-                            <span class="quantity" id="sweet-lassi-140ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('sweet-lassi-140ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/TM-Curd-130-GMS.png" alt="TM Curd 130 GMS" class="order-image">
-                        <h5 class="order-title">TM Curd 130 GMS</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹10</span>
-                            <span class="bp">BP: ₹8.5</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-130-gms', -1)">-</button>
-                            <span class="quantity" id="tm-curd-130-gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-130-gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/TM-Curd-475-GMS.png" alt="TM Curd 475 GMS" class="order-image">
-                        <h5 class="order-title">TM Curd 475 GMS</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹33</span>
-                            <span class="bp">BP: ₹27</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-475-gms', -1)">-</button>
-                            <span class="quantity" id="tm-curd-475-gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-475-gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/TM-Curd-Bucket(10 KGs).png" alt="TM Curd Bucket 5 KGs" class="order-image">
-                        <h5 class="order-title">TM Curd Bucket 5 KGs</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹365</span>
-                            <span class="bp">BP: ₹345</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-bucket-5-kgs', -1)">-</button>
-                            <span class="quantity" id="tm-curd-bucket-5-kgs-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-bucket-5-kgs', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/TM-Curd-Bucket(10 KGs).png" alt="TM Curd Bucket 10 KGs" class="order-image">
-                        <h5 class="order-title">TM Curd Bucket 10 KGs</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹670</span>
-                            <span class="bp">BP: ₹700</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-bucket-10-kgs', -1)">-</button>
-                            <span class="quantity" id="tm-curd-bucket-10-kgs-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-bucket-10-kgs', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
-                    <div class="order-card">
-                        <img src="Dodla/TM-Curd-Cup-450-GMS.png" alt="TM Curd Cup 450 GMS" class="order-image">
-                        <h5 class="order-title">TM Curd Cup 450 GMS</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹35</span>
-                            <span class="bp">BP: ₹31.5</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-cup-450-gms', -1)">-</button>
-                            <span class="quantity" id="tm-curd-cup-450-gms-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('tm-curd-cup-450-gms', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
-                    <div class="order-card">
-                        <img src="Dodla/UHT-Double-Toned-Milk-140ML.webp" alt="UHT Double Toned Milk 140ML" class="order-image">
-                        <h5 class="order-title">UHT Double Toned Milk 140ML (42 Pieces)</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹420</span>
-                            <span class="bp">BP: ₹390</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-double-toned-milk-140ml', -1)">-</button>
-                            <span class="quantity" id="uht-double-toned-milk-140ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-double-toned-milk-140ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
-                    <div class="order-card">
-                        <img src="Dodla/UHT-Toned-Milk-500ML.png" alt="UHT Toned Milk 500ML" class="order-image">
-                        <h5 class="order-title">UHT Toned Milk 500ML (20 Pieces)</h5>
-                        <div class="price-tags">
-                            <span class="mrp">MRP: ₹580</span>
-                            <span class="bp">BP: ₹540</span>
-                        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-toned-milk-500ml', -1)">-</button>
-                            <span class="quantity" id="uht-toned-milk-500ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-toned-milk-500ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk" data-min-qty="76">
-                    <div class="order-card">
-                        <img src="Dodla/Toned-Milk.webp" alt="Toned Milk 160ml" class="order-image">
-        <h5 class="order-title">Toned Milk 160ml</h5>
-        <div class="price-tags">
-            <span class="mrp">MRP: ₹10</span>
-            <span class="bp">BP: ₹9</span>
-            <span class="min-qty">Min Qty: 76</span>
-        </div>
-                        <div class="quantity-controls">
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-toned-milk-160ml', -1)">-</button>
-                            <span class="quantity" id="uht-toned-milk-160ml-qty">0</span>
-                            <button class="btn btn-sm btn-outline-secondary qty-btn" onclick="changeQuantity('uht-toned-milk-160ml', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
+            <div class="order-card">
+              <img
+                src="Dodla/Cow-Ghee-1000ML-P.png"
+                alt="Cow Ghee 1000ML P"
+                class="order-image"
+              />
+              <h5 class="order-title">Cow Ghee 1000ML P</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹750</span>
+                <span class="bp">BP: ₹650</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-1000ml-p', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="cow-ghee-1000ml-p-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-1000ml-p', 1)"
+                >
+                  +
+                </button>
+              </div>
             </div>
-
-            <div class="summary text-center">
-                <button id="place-order-btn" class="btn btn-success mt-3">Place Order</button>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
+            <div class="order-card">
+              <img
+                src="Dodla/Cow-Ghee-1000ML.png"
+                alt="Cow Ghee 1000ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Cow Ghee 1000ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹800</span>
+                <span class="bp">BP: ₹700</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-1000ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="cow-ghee-1000ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('cow-ghee-1000ml', 1)"
+                >
+                  +
+                </button>
+              </div>
             </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="3"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Doodh-Peda(200-GMS).png"
+                alt="Doodh Peda 200 GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">Doodh Peda 200 GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹125</span>
+                <span class="bp">BP: ₹100</span>
+                <span class="min-qty">Min Qty: 3</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('doodh-peda-200-gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="doodh-peda-200-gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('doodh-peda-200-gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/DTM-Curd-Bucket(10 KGs).png"
+                alt="DTM Curd Bucket 10 KGs"
+                class="order-image"
+              />
+              <h5 class="order-title">DTM Curd Bucket 10 KGs</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹650</span>
+                <span class="bp">BP: ₹590</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('dtm-curd-bucket-10-kgs', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="dtm-curd-bucket-10-kgs-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('dtm-curd-bucket-10-kgs', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/DTM-Curd-Bucket(10 KGs).png"
+                alt="DTM Curd Bucket 5 KGs"
+                class="order-image"
+              />
+              <h5 class="order-title">DTM Curd Bucket 5 KGs</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹330</span>
+                <span class="bp">BP: ₹310</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('dtm-curd-bucket-5-kgs', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="dtm-curd-bucket-5-kgs-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('dtm-curd-bucket-5-kgs', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
+            <div class="order-card">
+              <img
+                src="Dodla/FCM-130ML.png"
+                alt="FCM 130ML"
+                class="order-image"
+              />
+              <h5 class="order-title">FCM 130ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹10</span>
+                <span class="bp">BP: ₹9</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('fcm-130ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="fcm-130ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('fcm-130ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
+            <div class="order-card">
+              <img
+                src="Dodla/FCM-500ML.png"
+                alt="FCM 500ML"
+                class="order-image"
+              />
+              <h5 class="order-title">FCM 500ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹35</span>
+                <span class="bp">BP: ₹33</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('fcm-500ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="fcm-500ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('fcm-500ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Flavoured-Milk-200ML.png"
+                alt="Flavoured Milk 200ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Flavoured Milk 200ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹720</span>
+                <span class="bp">BP: ₹550</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('flavoured-milk-200ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="flavoured-milk-200ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('flavoured-milk-200ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Flavoured-Milk-200ML.png"
+                alt="Badam Milk 200ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Badam Milk 200ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹720</span>
+                <span class="bp">BP: ₹550</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('badam-milk-200ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="badam-milk-200ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('badam-milk-200ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
+            <div class="order-card">
+              <img
+                src="Dodla/Ghee-500ML.png"
+                alt="Ghee 500ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Ghee 500ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹410</span>
+                <span class="bp">BP: ₹310</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('ghee-500ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="ghee-500ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('ghee-500ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="ghee">
+            <div class="order-card">
+              <img
+                src="Dodla/Ghee-1000ML.png"
+                alt="Ghee 1000ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Ghee 1000ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹800</span>
+                <span class="bp">BP: ₹620</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('ghee-1000ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="ghee-1000ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('ghee-1000ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="6"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Junnu-100GMS.png"
+                alt="Junnu 100GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">Junnu 100GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹30</span>
+                <span class="bp">BP: ₹26</span>
+                <span class="min-qty">Min Qty: 6</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('junnu-100gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="junnu-100gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('junnu-100gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Panner-1KG.png"
+                alt="Panner 1KG"
+                class="order-image"
+              />
+              <h5 class="order-title">Panner 1KG</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹450</span>
+                <span class="bp">BP: ₹360</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-1kg', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="panner-1kg-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-1kg', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Panner-200GMS.png"
+                alt="Panner 200GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">Panner 200GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹105</span>
+                <span class="bp">BP: ₹90</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-200gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="panner-200gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-200gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Panner-500GMS.png"
+                alt="Panner 500GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">Panner 500GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹260</span>
+                <span class="bp">BP: ₹190</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-500gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="panner-500gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('panner-500gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="3"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Soan-Papidi-200(Ghee).png"
+                alt="Soan Papidi 200 Ghee"
+                class="order-image"
+              />
+              <h5 class="order-title">Soan Papidi 200 Ghee</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹90</span>
+                <span class="bp">BP: ₹81</span>
+                <span class="min-qty">Min Qty: 3</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200-ghee', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="soan-papidi-200-ghee-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200-ghee', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="3"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Soan-Papidi-200GMS (Elachi).png"
+                alt="Soan Papidi 200GMS Elachi"
+                class="order-image"
+              />
+              <h5 class="order-title">Soan Papidi 200GMS Elachi</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹70</span>
+                <span class="bp">BP: ₹63</span>
+                <span class="min-qty">Min Qty: 3</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-elachi', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="soan-papidi-200gms-elachi-qty"
+                  >0</span
+                >
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-elachi', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="3"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Soan-Papidi-200GMS (Orange ).png"
+                alt="Soan Papidi 200GMS Orange"
+                class="order-image"
+              />
+              <h5 class="order-title">Soan Papidi 200GMS Orange</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹70</span>
+                <span class="bp">BP: ₹63</span>
+                <span class="min-qty">Min Qty: 3</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-orange', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="soan-papidi-200gms-orange-qty"
+                  >0</span
+                >
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-orange', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="sweets"
+            data-min-qty="3"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Soan-Papidi-200GMS (Orange ).png"
+                alt="Soan Papidi 200GMS Orange"
+                class="order-image"
+              />
+              <h5 class="order-title">Soan Papidi 200GMS Orange</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹70</span>
+                <span class="bp">BP: ₹63</span>
+                <span class="min-qty">Min Qty: 3</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-orange', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="soan-papidi-200gms-orange-qty"
+                  >0</span
+                >
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('soan-papidi-200gms-orange', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="milk"
+            data-min-qty="24"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/STD-500ML.png"
+                alt="STD 500ML"
+                class="order-image"
+              />
+              <h5 class="order-title">STD 500ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹32</span>
+                <span class="bp">BP: ₹30</span>
+                <span class="min-qty">Min Qty: 24</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('std-500ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="std-500ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('std-500ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="other">
+            <div class="order-card">
+              <img
+                src="Dodla/Sweet-Lassi-140ML.png"
+                alt="Sweet Lassi 140ML"
+                class="order-image"
+              />
+              <h5 class="order-title">Sweet Lassi 140ML</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹10</span>
+                <span class="bp">BP: ₹8.5</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('sweet-lassi-140ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="sweet-lassi-140ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('sweet-lassi-140ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/TM-Curd-130-GMS.png"
+                alt="TM Curd 130 GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">TM Curd 130 GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹10</span>
+                <span class="bp">BP: ₹8.5</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-130-gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="tm-curd-130-gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-130-gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/TM-Curd-475-GMS.png"
+                alt="TM Curd 475 GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">TM Curd 475 GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹33</span>
+                <span class="bp">BP: ₹27</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-475-gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="tm-curd-475-gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-475-gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/TM-Curd-Bucket(10 KGs).png"
+                alt="TM Curd Bucket 5 KGs"
+                class="order-image"
+              />
+              <h5 class="order-title">TM Curd Bucket 5 KGs</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹365</span>
+                <span class="bp">BP: ₹345</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-bucket-5-kgs', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="tm-curd-bucket-5-kgs-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-bucket-5-kgs', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/TM-Curd-Bucket(10 KGs).png"
+                alt="TM Curd Bucket 10 KGs"
+                class="order-image"
+              />
+              <h5 class="order-title">TM Curd Bucket 10 KGs</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹670</span>
+                <span class="bp">BP: ₹700</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-bucket-10-kgs', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="tm-curd-bucket-10-kgs-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-bucket-10-kgs', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="curd">
+            <div class="order-card">
+              <img
+                src="Dodla/TM-Curd-Cup-450-GMS.png"
+                alt="TM Curd Cup 450 GMS"
+                class="order-image"
+              />
+              <h5 class="order-title">TM Curd Cup 450 GMS</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹35</span>
+                <span class="bp">BP: ₹31.5</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-cup-450-gms', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="tm-curd-cup-450-gms-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('tm-curd-cup-450-gms', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
+            <div class="order-card">
+              <img
+                src="Dodla/UHT-Double-Toned-Milk-140ML.webp"
+                alt="UHT Double Toned Milk 140ML"
+                class="order-image"
+              />
+              <h5 class="order-title">
+                UHT Double Toned Milk 140ML (42 Pieces)
+              </h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹420</span>
+                <span class="bp">BP: ₹390</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-double-toned-milk-140ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="uht-double-toned-milk-140ml-qty"
+                  >0</span
+                >
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-double-toned-milk-140ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-category="milk">
+            <div class="order-card">
+              <img
+                src="Dodla/UHT-Toned-Milk-500ML.png"
+                alt="UHT Toned Milk 500ML"
+                class="order-image"
+              />
+              <h5 class="order-title">UHT Toned Milk 500ML (20 Pieces)</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹580</span>
+                <span class="bp">BP: ₹540</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-toned-milk-500ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="uht-toned-milk-500ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-toned-milk-500ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            data-category="milk"
+            data-min-qty="76"
+          >
+            <div class="order-card">
+              <img
+                src="Dodla/Toned-Milk.webp"
+                alt="Toned Milk 160ml"
+                class="order-image"
+              />
+              <h5 class="order-title">Toned Milk 160ml</h5>
+              <div class="price-tags">
+                <span class="mrp">MRP: ₹10</span>
+                <span class="bp">BP: ₹9</span>
+                <span class="min-qty">Min Qty: 76</span>
+              </div>
+              <div class="quantity-controls">
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-toned-milk-160ml', -1)"
+                >
+                  -
+                </button>
+                <span class="quantity" id="uht-toned-milk-160ml-qty">0</span>
+                <button
+                  class="btn btn-sm btn-outline-secondary qty-btn"
+                  onclick="changeQuantity('uht-toned-milk-160ml', 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="summary text-center">
+          <button id="place-order-btn" class="btn btn-success mt-3">
+            Place Order
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer" id="contact">
-        <div class="container-fluid">
-            <div class="row g-4">
-                <div class="col-lg-6 col-md-12 text-center">
-                    <img src="Dodla/SVD1.png" alt="SVD Agencies Logo" class="footer-logo img-fluid mb-3 d-inline-block p-0 rounded-circle bg-white shadow-sm" >
-                    <h3 class="footer-title h5 mb-3">Sri Vijaya Durga Milk Agencies</h3>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <h5 class="text-white mb-3 text-center">Quick Links</h5>
-                    <ul class="list-unstyled text-center text-light">
-                        <li class="mb-2"><a href="index.html#services" class="text-light text-decoration-none">Services</a></li>
-                        <li class="mb-2"><a href="index.html#products" class="text-light text-decoration-none">Products</a></li>
-                        <li class="mb-2"><a href="index.html#features" class="text-light text-decoration-none">Features</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                    <h5 class="text-white mb-3 h6">Contact</h5>
-                    <ul class="list-unstyled text-light">
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a href="mailto:svdagencies12@gmail.com" class="text-light text-decoration-none">svdagencies12@gmail.com</a></li>
-                        <li class="mb-2"><i class="bi bi-phone me-2"></i> <a href="tel:+919392890375" class="text-light text-decoration-none">+91 9392890375</a></li>
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Near Santa Market, Main Road Gundugolanu, Eluru, AP - 534427</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom mt-4 pt-3 border-top border-secondary">
-                <p class="mb-0 text-center text-light">&copy; 2025 SVD Milk Agencies. All rights reserved. | Professional Milk Distribution Services</p>
-            </div>
+      <div class="container-fluid">
+        <div class="row g-4">
+          <div class="col-lg-6 col-md-12 text-center">
+            <img
+              src="Dodla/SVD1.png"
+              alt="SVD Agencies Logo"
+              class="footer-logo img-fluid mb-3 d-inline-block p-0 rounded-circle bg-white shadow-sm"
+            />
+            <h3 class="footer-title h5 mb-3">Sri Vijaya Durga Milk Agencies</h3>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <h5 class="text-white mb-3 text-center">Quick Links</h5>
+            <ul class="list-unstyled text-center text-light">
+              <li class="mb-2">
+                <a
+                  href="index.html#services"
+                  class="text-light text-decoration-none"
+                  >Services</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="index.html#products"
+                  class="text-light text-decoration-none"
+                  >Products</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="index.html#features"
+                  class="text-light text-decoration-none"
+                  >Features</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 text-center">
+            <h5 class="text-white mb-3 h6">Contact</h5>
+            <ul class="list-unstyled text-light">
+              <li class="mb-2">
+                <i class="bi bi-envelope me-2"></i>
+                <a
+                  href="mailto:svdagencies12@gmail.com"
+                  class="text-light text-decoration-none"
+                  >svdagencies12@gmail.com</a
+                >
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-phone me-2"></i>
+                <a
+                  href="tel:+919392890375"
+                  class="text-light text-decoration-none"
+                  >+91 9392890375</a
+                >
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-geo-alt me-2"></i> Near Santa Market, Main Road
+                Gundugolanu, Eluru, AP - 534427
+              </li>
+            </ul>
+          </div>
         </div>
+        <div class="footer-bottom mt-4 pt-3 border-top border-secondary">
+          <p class="mb-0 text-center text-light">
+            &copy; 2025 SVD Milk Agencies. All rights reserved. | Professional
+            Milk Distribution Services
+          </p>
+        </div>
+      </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        function changeQuantity(product, delta) {
-            const qtyElement = document.getElementById(product + '-qty');
-            if (qtyElement) {
-                let currentQty = parseInt(qtyElement.textContent) || 0;
-                currentQty += delta;
-                if (currentQty < 0) currentQty = 0;
-                qtyElement.textContent = currentQty;
-            }
+      function changeQuantity(product, delta) {
+        const qtyElement = document.getElementById(product + "-qty");
+        if (qtyElement) {
+          let currentQty = parseInt(qtyElement.textContent) || 0;
+          currentQty += delta;
+          if (currentQty < 0) currentQty = 0;
+          qtyElement.textContent = currentQty;
         }
+      }
 
-        // Filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const orderCardContainers = document.querySelectorAll('.row.g-4 > div');
+      // Filter functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const orderCardContainers = document.querySelectorAll(".row.g-4 > div");
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const category = this.getAttribute('data-category');
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
 
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
+            // Remove active class from all buttons
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            // Add active class to clicked button
+            this.classList.add("active");
 
-                    // Show/hide cards based on category
-                    orderCardContainers.forEach(container => {
-                        const cardCategory = container.getAttribute('data-category');
-                        if (category === 'all' || cardCategory === category) {
-                            container.style.display = 'block';
-                        } else {
-                            container.style.display = 'none';
-                        }
-                    });
-                });
+            // Show/hide cards based on category
+            orderCardContainers.forEach((container) => {
+              const cardCategory = container.getAttribute("data-category");
+              if (category === "all" || cardCategory === category) {
+                container.style.display = "block";
+              } else {
+                container.style.display = "none";
+              }
             });
-
-            // Place Order functionality
-            document.getElementById('place-order-btn').addEventListener('click', placeOrder);
-
-            // Apply default filter on load
-            const activeButton = document.querySelector('.filter-btn.active');
-            if (activeButton) {
-                activeButton.click();
-            }
+          });
         });
 
-        function placeOrder() {
-            let totalAmount = 0;
-            const quantityElements = document.querySelectorAll('.quantity');
-            let hasItems = false;
-            quantityElements.forEach(qtyElement => {
-                const qty = parseInt(qtyElement.textContent) || 0;
-                if (qty > 0) {
-                    hasItems = true;
-                    const card = qtyElement.closest('.order-card');
-                    if (card) {
-                        const bpSpan = card.querySelector('.bp');
-                        if (bpSpan) {
-                            const bp = parseFloat(bpSpan.textContent.replace(/[^\d.]/g, ''));
-                            totalAmount += qty * bp;
-                        }
-                    }
-                }
-            });
-            if (!hasItems) {
-                alert('Please select at least one product to place an order.');
-                return;
-            }
+        // Place Order functionality
+        document
+          .getElementById("place-order-btn")
+          .addEventListener("click", placeOrder);
 
-            // Check minimum order quantities
-            let violations = [];
-            quantityElements.forEach(qtyElement => {
-                const qty = parseInt(qtyElement.textContent) || 0;
-                if (qty > 0) {
-                    const col = qtyElement.closest('.col-lg-3');
-                    const minQty = parseInt(col.getAttribute('data-min-qty')) || 0;
-                    if (qty < minQty) {
-                        const card = qtyElement.closest('.order-card');
-                        const title = card.querySelector('.order-title').textContent;
-                        violations.push(`${title}: Minimum ${minQty}, selected ${qty}`);
-                    }
-                }
-            });
-
-            if (violations.length > 0) {
-                alert('Minimum order quantity not met for:\n' + violations.join('\n'));
-                return;
-            }
-
-            let message = 'Order Details:\n';
-            quantityElements.forEach(qtyElement => {
-                const qty = parseInt(qtyElement.textContent) || 0;
-                if (qty > 0) {
-                    const card = qtyElement.closest('.order-card');
-                    const title = card.querySelector('.order-title').textContent;
-                    message += `${title}: ${qty}\n`;
-                }
-            });
-            message += `Total Amount: ₹${totalAmount.toFixed(2)}`;
-
-            const phone = '919392890375';
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+        // Apply default filter on load
+        const activeButton = document.querySelector(".filter-btn.active");
+        if (activeButton) {
+          activeButton.click();
         }
+      });
+
+      function placeOrder() {
+        let totalAmount = 0;
+        const quantityElements = document.querySelectorAll(".quantity");
+        let hasItems = false;
+        quantityElements.forEach((qtyElement) => {
+          const qty = parseInt(qtyElement.textContent) || 0;
+          if (qty > 0) {
+            hasItems = true;
+            const card = qtyElement.closest(".order-card");
+            if (card) {
+              const bpSpan = card.querySelector(".bp");
+              if (bpSpan) {
+                const bp = parseFloat(
+                  bpSpan.textContent.replace(/[^\d.]/g, "")
+                );
+                totalAmount += qty * bp;
+              }
+            }
+          }
+        });
+        if (!hasItems) {
+          alert("Please select at least one product to place an order.");
+          return;
+        }
+
+        // Check minimum order quantities
+        let violations = [];
+        quantityElements.forEach((qtyElement) => {
+          const qty = parseInt(qtyElement.textContent) || 0;
+          if (qty > 0) {
+            const col = qtyElement.closest(".col-lg-3");
+            const minQty = parseInt(col.getAttribute("data-min-qty")) || 0;
+            if (qty < minQty) {
+              const card = qtyElement.closest(".order-card");
+              const title = card.querySelector(".order-title").textContent;
+              violations.push(`${title}: Minimum ${minQty}, selected ${qty}`);
+            }
+          }
+        });
+
+        if (violations.length > 0) {
+          alert(
+            "Minimum order quantity not met for:\n" + violations.join("\n")
+          );
+          return;
+        }
+
+        let message = "Order Details:\n";
+        quantityElements.forEach((qtyElement) => {
+          const qty = parseInt(qtyElement.textContent) || 0;
+          if (qty > 0) {
+            const card = qtyElement.closest(".order-card");
+            const title = card.querySelector(".order-title").textContent;
+            message += `${title}: ${qty}\n`;
+          }
+        });
+        message += `Total Amount: ₹${totalAmount.toFixed(2)}`;
+
+        const phone = "919392890375";
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(url, "_blank");
+      }
     </script>
-</body>
+  </body>
 </html>
